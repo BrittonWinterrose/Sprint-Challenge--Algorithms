@@ -96,7 +96,12 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
+        if can_move_right is False and light_is_on is False:
+            break
+        elif can_move_right is False and light_is_on is True:
+            while can_move_left is True:
+                move_left
+        elif can_move_right
         pass
 
 
@@ -110,3 +115,32 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+
+# My plan
+    # if can_move_right = False and light_is_on = False:
+    #     break ## successfully reached the end of the list with all sorts completed.
+
+    # elif can_move_right = False and light_is_on = True:
+    #     ## robot is at the end of the list, holding None, but light is on indicating that a swap happended and list may not be finished sorting. 
+    #     while can_move_left = True:  ## Move robot all the way to the beginning again. 
+    #         move_left
+    #         set_light_off
+    #         sort(l)
+    
+    # elif can_move_right = True:          
+    #   swap_item ## positioned over item 0, or last item compared against. 
+    #   move_right ## proceeed to next comparision
+
+    #   if compare_item = 1: ##item held is greater
+    #         swap_item ## now holding smaller item
+    #         move_left ## again aligned with None item.
+    #         swap_item ## now holding None item, smaller item moved to left of larger item.
+    #         move_right ## now postioned over the larger item.
+    #         set_light_on ## indicates a swap has occured and sort may be incomplete.
+    #         sort(l)
+
+    #     elif compare_item = -1 or 0 ## item held is less than or equal to compared
+    #         move_left ## go back to None item.
+    #         swap_item ## pick none item back up.
+    #         move_right ## now positioned over the checked item.
+    
