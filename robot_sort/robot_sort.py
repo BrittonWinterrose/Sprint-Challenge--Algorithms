@@ -98,11 +98,30 @@ class SortingRobot:
         """
         if can_move_right is False and light_is_on is False:
             break
+
         elif can_move_right is False and light_is_on is True:
             while can_move_left is True:
                 move_left
-        elif can_move_right
-        pass
+            set_light_off
+            sort(l)
+        
+        elif can_move_right is True:
+            swap_item
+            move_right
+
+            if compare_item == 1:
+                swap_item
+                move_left
+                swap_item
+                move_right
+                set_light_on
+                sort(l)
+                
+            else:
+                move_left
+                swap_item
+                move_right
+                sort(l)
 
 
 if __name__ == "__main__":
