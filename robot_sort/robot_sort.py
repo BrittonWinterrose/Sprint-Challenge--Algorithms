@@ -1,3 +1,7 @@
+import sys
+
+sys.setrecursionlimit(4000)
+
 class SortingRobot:
     def __init__(self, l):
         """
@@ -98,32 +102,30 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        if not can_move_right(self) and not light_is_on(self):
-            return None
-
-        elif not can_move_right(self) and light_is_on(self):
-            while can_move_left(self):
-                move_left(self)
-            set_light_off(self)
-            sort(self)
-        
-        elif can_move_right(self) is True:
-            swap_item(self)
-            move_right(self)
-
-            if compare_item(self) == 1:
-                swap_item(self)
-                move_left(self)
-                swap_item(self)
-                move_right(self)
-                set_light_on(self)
-                sort(self)
-
-            else:
-                move_left(self)
-                swap_item(self)
-                move_right(self)
-                sort(self)
+        self.set_light_on() # Turn on light
+        self.swap_item() # Pick up 0th item
+        while self.light_is_on(): # as long as the light remains on, loop back through contents. 
+            # Find the next smallest item.
+            while self.can_move_right(): # As long as it can move right # LR: Won't do this becasue it cant move right.
+                self.move_right() # Move right
+                if self.compare_item() == 1:  #check new item is smaller
+                    self.swap_item() # Pickup smallest item
+                # then it keeps going right until the while is done.
+            
+            # search for the None spot to move the small item into
+            while self.compare_item() != None: # This will run until the none item is held. # LR: Won't do this becasue one of the two is none. 
+                self.move_left()
+                if self.compare_item() is None:
+                    self.swap_item() # Pick up none. 
+            
+            # Now if we can move right we'll do that to prep the next cycle. # LR: Won't do this becasue one of the two is none.
+            if self.can_move_right():
+                self.move_right()  # Move robot right,
+                self.swap_item()  # Swap None into list.
+            
+            elif not self.can_move_right():  # If you can't move right any further.
+                self.swap_item() # LR: Need to swap the held item, back with none.
+                self.set_light_off()
 
 
 if __name__ == "__main__":
@@ -137,31 +139,23 @@ if __name__ == "__main__":
     robot.sort()
     print(robot._list)
 
-# My plan
-    # if can_move_right = False and light_is_on = False:
-    #     break ## successfully reached the end of the list with all sorts completed.
-
-    # elif can_move_right = False and light_is_on = True:
-    #     ## robot is at the end of the list, holding None, but light is on indicating that a swap happended and list may not be finished sorting. 
-    #     while can_move_left = True:  ## Move robot all the way to the beginning again. 
-    #         move_left
-    #         set_light_off
-    #         sort(l)
+# Plan
+# Light on:
+# Swap item:
+# While light_is_on: 
+    #While can_move_right:
+        #move_to_right
+        #if compare == 1: 
+            #swap
     
-    # elif can_move_right = True:          
-    #   swap_item ## positioned over item 0, or last item compared against. 
-    #   move_right ## proceeed to next comparision
-
-    #   if compare_item = 1: ##item held is greater
-    #         swap_item ## now holding smaller item
-    #         move_left ## again aligned with None item.
-    #         swap_item ## now holding None item, smaller item moved to left of larger item.
-    #         move_right ## now postioned over the larger item.
-    #         set_light_on ## indicates a swap has occured and sort may be incomplete.
-    #         sort(l)
-
-    #     elif compare_item = -1 or 0 ## item held is less than or equal to compared
-    #         move_left ## go back to None item.
-    #         swap_item ## pick none item back up.
-    #         move_right ## now positioned over the checked item.
+    #While compare_item not none:
+        #move_left
+        #if compare == None:
+            #swap
     
+    #if can_move_right:
+        #move_right
+        #swap
+    
+    #elif not can_move_right:
+        #turn_off_light

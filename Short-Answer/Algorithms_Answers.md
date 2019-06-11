@@ -2,7 +2,7 @@ Add your answers to the Algorithms exercises here.
 # Exercise I
 a) O(n)
 b) O(n^3), because O(n)*O(n)*O(n)*10
-c) O(n log n), because the recursive function will execute similtaneously for all layers of the stack, taking only slightly longer for larger stacks.
+c) O(n)
 
 
 # Exercise II 
@@ -23,8 +23,11 @@ def egg_drop (current_floor, _n_):
             _f_ = current_floor
             return _f_   
 
+starting_floor = n / 2
+take_height=
+drop height
+
+
+
 Well..... may work better to partition, sample, and drop...
 but the runtime complexity of this current solution is linear O(n)
-
-
-
