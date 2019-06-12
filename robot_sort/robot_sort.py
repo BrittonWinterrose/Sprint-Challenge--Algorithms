@@ -1,3 +1,7 @@
+import sys
+
+sys.setrecursionlimit(4000)
+
 class SortingRobot:
     def __init__(self, l):
         """
@@ -81,11 +85,13 @@ class SortingRobot:
         Turn on the robot's light
         """
         self._light = "ON"
+
     def set_light_off(self):
         """
         Turn off the robot's light
         """
         self._light = "OFF"
+
     def light_is_on(self):
         """
         Returns True if the robot's light is on and False otherwise.
@@ -96,8 +102,30 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        self.set_light_on() # Turn on light
+        self.swap_item() # Pick up 0th item
+        while self.light_is_on(): # as long as the light remains on, loop back through contents. 
+            # Find the next smallest item.
+            while self.can_move_right(): # As long as it can move right # LR: Won't do this becasue it cant move right.
+                self.move_right() # Move right
+                if self.compare_item() == 1:  #check new item is smaller
+                    self.swap_item() # Pickup smallest item
+                # then it keeps going right until the while is done.
+            
+            # search for the None spot to move the small item into
+            while self.compare_item() != None: # This will run until the none item is held. # LR: Won't do this becasue one of the two is none. 
+                self.move_left()
+                if self.compare_item() is None:
+                    self.swap_item() # Pick up none. 
+            
+            # Now if we can move right we'll do that to prep the next cycle. # LR: Won't do this becasue one of the two is none.
+            if self.can_move_right():
+                self.move_right()  # Move robot right,
+                self.swap_item()  # Swap None into list.
+            
+            elif not self.can_move_right():  # If you can't move right any further.
+                self.swap_item() # LR: Need to swap the held item, back with none.
+                self.set_light_off()
 
 
 if __name__ == "__main__":
@@ -110,3 +138,24 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+
+# Plan
+# Light on:
+# Swap item:
+# While light_is_on: 
+    #While can_move_right:
+        #move_to_right
+        #if compare == 1: 
+            #swap
+    
+    #While compare_item not none:
+        #move_left
+        #if compare == None:
+            #swap
+    
+    #if can_move_right:
+        #move_right
+        #swap
+    
+    #elif not can_move_right:
+        #turn_off_light
